@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/cart-detail.css' %}">
+<style>
+    .coupon-form {
+        display: flex;
+    }
+</style>
+{% endblock %}
+{% block title %}
+<title>{% trans 'Cart Detail' %}</title>
+{% endblock %}
+{% block content %}
+<section>
+    {% with total_items=cart|length %}
+ 
+        <h1>{% translate "You Have" %} 
+        {% blocktrans with total=cart.get_cart_total count total_items_trans=total_items %}
+            {{total_items_trans}} Item {% plural %} {{total_items_trans}} Items
+        {% endblocktrans %}
+        </h1>
+
+    {% endwith %}
+    <article class="cart-container">
+        <table class="table">
+            <thead>
+              <tr>
+                <th>{% trans 'Image' %}</th>
+                <th>{% trans 'Product' %}</th>
+                <th>{% trans 'Quantity' %}</th>
+                <th>{% trans 'Remove' %}</th>
+                <th>{% trans 'Unit Price' %}</th>
+                <th>{% trans 'Price' %}</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                {% if item %}
+                    {% with product=item.product %}
+                    <tr class="product-item">
+                        <td>
+                            <a href="{{product.get_absolute_url}}" class="image-link">
+                                <img src="{{product.get_single_image}}" width="60" height="60">
+                            </a>
+                        </td>
+                        {% blocktrans with product_name=product.name %}
+                        <td>{{product_name}}</td>
+                        {% endblocktrans %}
+                        <td>
+                            <form method="POST" action="{% url 'add_cart' product.id %}">
+                                {% csrf_token %}
+                                {{item.quantity_form.quantity}}
+                                {{item.quantity_form.overide}}
+                                <button type="submit" class="btn btn-info btn-sm">{% trans "Update" %}</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form class="remove-product" action="{% url 'remove_cart' product.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">{% trans "Remove" %}</button>
+                            </form>
+                        </td>
+                        <td>Rs {{item.price}}</td>
+                        <td>Rs {{item.total_price}}</td>
+                    </tr>
+                    {% endwith %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">{% trans "Your Cart is Empty"%}</td>
+                    </tr>
+                {% endif %}
+                {% endfor %}
+                    <tr class="cart-total">
+                        <td>{% trans "Total" %}</td>
+                        <td colspan="4"></td>
+                        <td>{{cart.get_cart_total}}</td>
+                    </tr>
+                    <tr class="cart-discount">
+                        <td>{% trans "Discount" %}</td>
+                        <td colspan="4"></td>
+                        <td class="target">{{cart.get_discount}}</td>
+                    </tr>
+                    <tr class="cart-total-final">
+                        <td>{% trans "Price After Discount" %}</td>
+                        <td colspan="4"></td>
+                        <td class="target">{{cart.price_after_discount|floatformat:2}}</td>
+                    </tr>
+            </tbody>
+          </table>
+        </div>
+    </article>
+    <article class="coupon-form">
+        <form class="coupon-form" method="POST" id="coupon-apply">
+            {% csrf_token %}
+            {{coupon_form.code}}
+            <input type="submit" class="btn btn-success" value="{% translate "Apply" %}"">
+            <div class="form-msg"></div>
+        </form>
+    </article>
+    <article class="cart-options">
+        <a href="{% url 'home'%}" class="btn btn-info">{% trans 'Continue Shopping' %}</a>
+        <a href="{% url 'orders:checkout' %}" class="btn btn-success">{% trans "Checkout" %}</a>
+    </article>
+    {% if suggested_products %}
+    <article class="recommandation">
+        <h4>{% translate "People who Bought this Product also Baught" %}</h4>
+        <div class="recommandation-list">
+            {% for product in suggested_products %}
+            <div class="recommandation-item">
+                <a href="{{product.get_absolute_url}}" class="recommandation-item-link">
+                <img src="{{product.get_single_image}}" class="recommanded-image">
+                <p>{{product.name|truncatewords:3}}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </article>
+    {% endif %}
+</section>
+{% endblock %}
+{% block js %}
+<script>
+$(window).ready(function(){
+    $('#coupon-apply').submit(function(e){
+        e.preventDefault()
+        let coupon_code = $('#id_code').val()
+        const url = "{% url 'coupon:apply_coupon' %}"
+
+        $.post(url, {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value, code: coupon_code}, function(response){
+            let total = "{{cart.get_cart_total}}"
+            let discount = response['discount']
+            let discount_ammount = parseInt(total) * discount / 100
+            if (response['status'] === 'ok'){
+
+                $('.cart-discount .target').text(discount_ammount)
+                $('.cart-total-final .target').text(parseInt(total) - discount_ammount)
+                $('.form-msg').text(response['code'] + '{% trans "Applied" %}')
+                console.log(this.children)
+            }
+            else{
+                $('.form-msg').text(response['code'] + ' {% trans "is not a valid Coupon." %}')
+                $('.cart-discount .target').text(0)
+                $('.cart-total-final .target').text(total)
+            }
+        })
+
+    })
+})
+</script>
+{% endblock %}

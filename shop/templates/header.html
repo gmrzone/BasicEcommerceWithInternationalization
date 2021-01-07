@@ -1,0 +1,46 @@
+{% load i18n %}
+{% load static %}
+<div class="backdrop"></div>
+<div class="backdrop1"></div>
+<nav class="main-nav">
+  <div class="wrapper nav-main">
+    <div class="logo">
+      <h1 class="main-logo">{% trans 'MyShop' %}</h1>
+    </div>
+    <div class="mob-nav-opener">
+      <div style="margin: 0px;"></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="nav-content">
+        <div class="mobile-nav-close">X</div>
+        <div class="nav-item"><a href="{% url 'home' %}" class="nav-link">{% trans 'Home'%}</a></div>
+        <div class="nav-item"><a href="" class="nav-link">{% trans 'Contact'%}</a></div>
+        <div class="nav-item"><a href="" class="nav-link">{% trans 'About' %}</a></div>
+        <div class="nav-item dropdown">
+          <a class="nav-item nav-link">{% trans 'Settings' %}<i class="fa fa-caret-down"></i></a>
+          <div class="dropdowm-content">
+            <a href="" class="dropdowm-item">{% trans 'Change Password' %}</a>
+            <a href="" class="dropdowm-item">{% trans 'Profile' %}</a>
+            <a href="" class="dropdowm-item">{% trans 'Privacy' %}</a>
+            <a href="" class="dropdowm-item">{% trans 'Logout' %}</a>
+          </div>
+        </div>
+      <!-- <div class="nav-item dropdown">
+        <a class="nav-item nav-link dropdown-link">Settings<i class="fa fa-caret-down"></i></a>
+        <div class="dropdowm-content">
+          <a href="" class="dropdowm-item">Change Password</a>
+          <a href="" class="dropdowm-item">Profile</a>
+          <a href="" class="dropdowm-item">Privacy</a>
+          <a href="" class="dropdowm-item">Logout</a>
+        </div>
+      </div> -->
+      <div class="nav-item">
+        <a href="{% url 'cart_detail' %}" class="nav-link cart-detail">
+          <div class="cart-quantity">{{cart|length}}</div>
+          <img src="{% static '/images/shopping-cart.svg' %}" class="cart-icon">
+        </a></div>
+    </div>
+</div>
+</nav>

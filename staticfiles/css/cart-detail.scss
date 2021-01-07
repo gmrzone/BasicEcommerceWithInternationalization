@@ -1,0 +1,10 @@
+@import '_variables.scss';
+.cart-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    a {
+        margin-left: 20px;
+    }
+}

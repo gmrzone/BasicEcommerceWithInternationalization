@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block css %}
+<style>
+.main-section {
+    display: flex;
+}
+.list-order {
+    display: flex;
+}
+
+</style>
+<style>
+    .coupon-form {
+        display: flex;
+    }
+</style>
+{% endblock %}
+{% block title %}
+<title>Checkout</title>
+<script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+{% block content %}
+<section class="main-section">
+    <article class="order-form w-75 p-2 mr-5">
+        <form method="POST" class="" id="payment-form">
+            {%csrf_token%}
+            <div class="form-fields">
+                <div class="input-data"><label for="">Firstname</label>{{checkout_form.first_name}}</div>
+                <div class="input-data"><label for="">Lastname</label>{{checkout_form.last_name}}</div>
+                <div class="input-data"><label for="">Email</label>{{checkout_form.email}}</div>
+                <div class="input-data"><label for="">Address</label>{{checkout_form.address}}</div>
+                <div class="input-data"><label for="">City</label>{{checkout_form.city}}</div>
+                <div class="input-data"><label for="">Pincode</label>{{checkout_form.pincode}}</div>    
+            </div>
+            <div class="card-details">
+                
+            </div>
+            <!-- <input id="card-name" type="text"> -->
+            <div id="card-element"></div>
+            <div id="card-errors" role="alert"></div>   
+            <button class="btn btn-success btn-bg mt-5">Place Order</button>
+            <!-- <button class="btn btn-danger btn-bg mt-5" data-secret="{{client_secret}}" id="card-button">Pay with Stripe</button> -->
+            <a href="{% url 'cart_detail' %}" class="btn btn-danger btn-bg mt-5">Review Order</a>
+        </form>
+    </article>
+    <article class="order-details">
+        <div class="order-detail-container">
+            <h3>Your Order.</h3>
+            <ul class="list-group">
+                {% for item in cart %}
+                <li class="list-group-item list-group-item-success list-order">
+                    {{item.quantity}}x {{item.product.name}}
+                </li>
+                {% endfor %}
+            </ul>
+            <p class="float-right mt-3 mr-2">Your Total: Rs {{cart.get_cart_total}}<br>discount: Rs {{cart.get_discount}}<br>final Total: Rs {{cart.price_after_discount}}</p>
+        </div>
+    </article>
+
+</section>
+<article class="coupon-form">
+    <form class="coupon-form" method="POST" id="coupon-apply">
+        {% csrf_token %}
+        {{coupon_form.code}}
+        <div class="form-msg"></div>
+        <input type="submit" class="btn btn-success" value="Apply">
+    </form>
+</article>
+{% endblock %}
+{% block js %}
+<!-- <script>
+const all_inputs = document.querySelectorAll('.form-fields .input-data input')
+place_holders = ['Firstname', 'Lastname', 'Email', 'Address', 'City', 'Pincode']
+all_inputs.forEach((x, i) =>{
+    x.setAttribute('placeholder', place_holders[i]);
+    x.classList.add('form-control');
+})
+</script> -->
+<!-- <script>
+    // Create an instance of stripe with public key and get elements from stripe with specified style
+    var stripe = Stripe('pk_test_51I1ZLoILK0fYUsKSJKvf4Jzqf30swSnovxmteNo1VdBS8Q6NOoGc2yjOy9Rd8GvmCy1g82Aoy89B28KcXogF4pKQ00rVrybnP2');
+    var elements = stripe.elements();
+    var style = {
+      base: {
+        color: "#32325d",
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#aab7c4"
+      }
+
+      }
+    };
+    // create create element for card and mount to #card-element div
+    var card = elements.create("card", { style: style });
+    card.mount("#card-element");
+    // Add A event listner on card input change to detect error when user is typing card no and display error on #card-error div
+    card.on('change', function(event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+// Submit the payment to strip 
+
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(ev){
+    ev.preventDefault()
+    stripe.confirmCardPayment("{{client_secret}}", {
+        payment_method: {
+            card: card,
+            billing_details: {
+                name: "Afzal Saiyed",
+
+            }
+        }
+    }).then(function(result){
+    if (result.error) {
+      // Show error to your customer (e.g., insufficient funds)
+      console.log(result.error.message);
+      console.log("Afzal")
+    } else {
+        if (result.paymentIntent.status === 'succeeded') {
+            console.log("AFzal")
+        // Show a success message to your customer
+        // There's a risk of the customer closing the window before callback
+        // execution. Set up a webhook or plugin to listen for the
+        // payment_intent.succeeded event that handles any business critical
+        // post-payment actions.
+        }
+    }
+})
+
+
+})
+</script> -->
+{% endblock %}

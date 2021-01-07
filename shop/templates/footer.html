@@ -1,0 +1,24 @@
+{% load i18n %}
+<footer class="footer-main">
+    <ul class="footer-items wrapper">
+        <li class="footer-item"><a href="">{% trans 'Login' %}</a></li>
+        <li class="footer-item"><a href="">{% trans "Signup" %}</a></li>
+        <li class="footer-item"><a href="">{% trans 'Contact us' %}</a></li>
+        <li class="footer-item"><a href="">{% trans 'About' %}</a></li>
+    </ul>
+    {% get_current_language as current_lang_code %}
+    {% get_available_languages as available_lang %}
+    {% get_language_info_list for available_lang as languages_list %}
+    <div class="languages">
+        <p>{% translate "Languages" %}</p>
+        <ul class="languages" style="display: flex; list-style: none;">
+            {% for language in languages_list %}
+            <li style="padding: 10px;">
+                <a href="/{{language.code}}/" {% if language.code == current_lang_code %}class="selected-lang"{% endif %}>
+                    {{language.name_local}}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</footer>

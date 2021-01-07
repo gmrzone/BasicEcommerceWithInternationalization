@@ -1,0 +1,71 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-04 08:34-0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\orders\models.py:10
+msgid "first name"
+msgstr ""
+
+#: .\orders\models.py:11
+msgid "last name"
+msgstr ""
+
+#: .\orders\models.py:12
+msgid "Email"
+msgstr ""
+
+#: .\orders\models.py:13
+msgid "Address"
+msgstr ""
+
+#: .\orders\models.py:14
+msgid "Pincode"
+msgstr ""
+
+#: .\orders\models.py:15
+msgid "City"
+msgstr ""
+
+#: .\orders\models.py:16
+msgid "Paid"
+msgstr ""
+
+#: .\orders\models.py:17
+msgid "order ID"
+msgstr ""
+
+#: .\orders\templates\order_success.html:6
+msgid "Details"
+msgstr ""
+
+#: .\orders\templates\order_success.html:10
+msgid "Thankyou"
+msgstr ""
+
+#: .\orders\templates\order_success.html:11
+msgid "Your Order Has Been Sucessfully Completed. Your Order Id is"
+msgstr ""
+
+#: .\orders\urls.py:7
+msgid "checkout/"
+msgstr ""
+
+#: .\orders\urls.py:8
+msgid "order-success/"
+msgstr ""

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block css %}
+{% endblock %}
+{% block title %}
+<title>{{order.order_id}} {% trans "Details"%}</title>
+{% endblock %}
+{% block content %}
+<div class="jumbotron">
+    <h1>{% trans "Thankyou" %}</h1>
+    <p>{% trans "Your Order Has Been Sucessfully Completed. Your Order Id is" %} {{order.order_id}}</p>
+  </div>
+{% endblock %}
+{% block js %}
+{% endblock %}

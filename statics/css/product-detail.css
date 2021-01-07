@@ -1,0 +1,32 @@
+.recommandation {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+.recommandation .recommandation-list {
+  display: flex;
+}
+.recommandation .recommandation-item {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+.recommandation .recommandation-item .recommanded-image {
+  width: 150px;
+}
+.recommandation .recommandation-item:hover {
+  background: #d9d9d9;
+}
+.recommandation .recommandation-item-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.recommandation .recommandation-item-link:hover {
+  background: #d9d9d9;
+}
+
+/*# sourceMappingURL=product-detail.css.map */

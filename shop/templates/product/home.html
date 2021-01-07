@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css'%}">
+{% endblock %}
+{% block title %}
+<title>{% trans "My Shop" %}</title>
+{% endblock %}
+{% block content %}
+<section class="search-section">
+    <form class="search-bar" method="GET" action="">
+        <select class="product-category">
+            <option>{% trans "All" %}</option>
+            {% for category in categories %}
+            {% blocktrans with cat_name=category.name %}
+                <option>{{cat_name}}</option> 
+            {% endblocktrans %}
+            {% endfor %}
+        </select>
+        <div class="search-bar">
+            <input type="text" name="search" class="search-input">
+            <button class="search-btn">{% trans "Search" %}</button>
+        </div>
+    </form>
+</section>
+<section class="product-list">
+    <article class="side-bar">
+        <ul class="category-list">
+            <li class="category-item {% if category is None %}active{% endif %}"><a href="{% url 'home' %}">{% trans "All" %}</a></li>
+            {% for c in categories %}
+                {% if c.name == category.name %}
+                {% blocktrans with cat_name=c.name %}
+                <li class="category-item active"><a href="{{c.get_absolute_url}}">{{cat_name}}</a></li>
+                {% endblocktrans %}
+                {% else %}
+                {% blocktrans with cat_name=c.name %}
+                <li class="category-item"><a href="{{c.get_absolute_url}}">{{cat_name}}</a></li>
+                {% endblocktrans %}
+                {% endif %}
+            
+            {% endfor %}
+        </ul>
+    </article>
+    <article class="product-list-main">
+        {% for product in products %}
+            
+        <div class="product-item">
+            <a href="{{product.get_absolute_url}}" class="product-link">
+                <img src="{{product.get_single_image}}" class="product-image" width="200" height="250">
+                {% blocktrans with product_name=product.name|truncatewords:2 %}
+                <p>{{product_name}}</p>
+                {% endblocktrans %}
+                <p>Rs {{product.price}}</p>
+            </a>
+        </div>
+            
+        {% endfor %}
+    </article>
+</section>
+{% endblock %}
+{% block js %}
+<!-- Global Variables -->
+<script>
+var post_list_url = "{{category.get_absolute_url}}";
+</script>
+<!-- main script -->
+<script src="{% static 'js/home.js'%}"></script>
+{% endblock %}

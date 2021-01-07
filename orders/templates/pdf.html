@@ -1,0 +1,53 @@
+{% load static %}
+<html>
+    <head>
+        <link href="{% static 'css/pdf.css' %}" media="print" rel="stylesheet">
+    </head>
+    <body>
+        <h1>My SHOP</h1>
+        <div class="sub-heading">
+            <p class="bold-text">INVOICE NO : {{order.id}}</p>
+            <p class="bold-text">ORDER ID : {{order.order_id}}</p>
+        </div>
+        <div class="customer-details">
+            <h3>Bill To</h3><br>
+            <p class="normal-text">{{order.first_name|capfirst}} {{order.last_name|capfirst}}<br>{{order.email}}<br>{{order.address|capfirst}}<br>{{order.pincode}}</p></br>
+        </div>
+        <h3>Items Bought</h3>
+        <table class="order-item-table">
+            <thead>
+                <tr class="table-head">
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% with items=order.items.all %}
+                    {% for item in items %}
+                        <tr class="table-row">
+                            <td>{{item.product.name}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.get_cost}}</td>
+                        </tr>
+                    {% endfor %}
+                {% endwith %}
+                        <tr class="end-row">
+                            <td colspan="3">Total</td>
+                            <td>{{order.get_cart_total}}</td>
+                        </tr>
+                        <tr class="end-row">
+                            <td colspan="3">Discount</td>
+                            <td>{{order.discount}}%</td>
+                        </tr>
+                        <tr class="end-row">
+                            <td colspan="3">Discounted Total</td>
+                            <td>{{order.get_discount_total}}</td>
+                        </tr>
+            </tbody>
+        </table>
+        <span class="{%if order.paid%}paid{% else %}pending{% endif %}">{% if order.paid %}Paid{% else %}Payment Pending{% endif %}</span>
+    </body>
+</html>

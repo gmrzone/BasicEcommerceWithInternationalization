@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@page { size: A3; margin: 0scm }
+h1 {
+    font-size: 30px;
+    color: red;
+}
+h3 {
+font-size: 18px;
+color: cadetblue;
+}
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+.sub-heading {
+    display: flex;
+    justify-content: space-between;
+    background-color: ghostwhite;
+    color: black;
+}
+
+.order-item-table {
+    width: 100%;
+}
+.table-head {
+    background-color: ghostwhite;
+    color: black;
+}
+.paid {
+    position: absolute;
+    color: lightgreen;
+    font-size: 30px;
+    bottom: 100px;
+}

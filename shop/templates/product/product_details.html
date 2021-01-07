@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block css %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/product-detail.css' %}">
+{% endblock %}
+{% block title %}
+<title>
+    {{selected_product.name}}
+</title>
+{% endblock %}
+{% block content %}
+<section class="detail-section">
+    <article class="detail-item">
+        <div class="product-image">
+            <img src="{{selected_product.get_single_image}}" width="400">
+        </div>
+        <div class="product-details">
+            <p>{{selected_product.name}}</p>
+            <p>{{selected_product.category.name}}</p>
+            <p>Rs {{selected_product.price}}</p>
+            <p>{{selected_product.description|linebreaks}}</p>
+            <form class="add-to-cart" action="{% url 'add_cart' selected_product.id %}" method="POST">
+                {% csrf_token %}
+                {{add_to_cart}}
+                <button type="submit" class="btn btn-success">Add To Cart</button>
+            </form>
+        </div>
+    </article>
+    {% if product_suggestion %}
+    <article class="recommandation">
+        <h4>{% translate "People Who Bought this Product also Baught" %}</h4>
+        <div class="recommandation-list">
+            {% for product in product_suggestion %}
+            <div class="recommandation-item">
+                <a href="{{product.get_absolute_url}}" class="recommandation-item-link">
+                <img src="{{product.get_single_image}}" class="recommanded-image">
+                <p>{{product.name|truncatewords:3}}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </article>
+    {% endif %}
+</section>
+{% endblock %}
+{% block js %}
+{% endblock %}

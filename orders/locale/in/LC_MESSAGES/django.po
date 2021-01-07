@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-04 08:26-0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\orders\models.py:10
+msgid "first name"
+msgstr "पहला नाम"
+
+#: .\orders\models.py:11
+#, fuzzy
+#| msgid "first name"
+msgid "last name"
+msgstr "उपनाम"
+
+#: .\orders\models.py:12
+msgid "Email"
+msgstr "ईमेल"
+
+#: .\orders\models.py:13
+msgid "Address"
+msgstr "पता"
+
+#: .\orders\models.py:14
+msgid "Pincode"
+msgstr "पिन कोड"
+
+#: .\orders\models.py:15
+msgid "City"
+msgstr "शहर"
+
+#: .\orders\models.py:16
+msgid "Paid"
+msgstr "भुगतान किया है"
+
+#: .\orders\models.py:17
+msgid "order ID"
+msgstr "आदेश ID"
+
+#: .\orders\templates\order_success.html:6
+msgid "Details"
+msgstr "विवरण"
+
+#: .\orders\templates\order_success.html:10
+msgid "Thankyou"
+msgstr "धन्यवाद"
+
+#: .\orders\templates\order_success.html:11
+msgid "Your Order Has Been Sucessfully Completed. Your Order Id is"
+msgstr "आपका आदेश सफलतापूर्वक पूर्ण हो गया। आपका ऑर्डर आईडी है"
+
+#: .\orders\urls.py:7
+msgid "checkout/"
+msgstr ""
+
+#: .\orders\urls.py:8
+msgid "order-success/"
+msgstr ""

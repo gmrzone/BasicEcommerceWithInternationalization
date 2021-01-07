@@ -1,0 +1,81 @@
+{% extends 'admin/base_site.html' %}
+{% block title %}
+Order {{order.id}} {{block.super}}
+{% endblock %}
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url "admin:index" %}">Home</a> &rsaquo;
+        <a href="{% url "admin:orders_order_changelist" %}">Orders</a>&rsaquo;
+        <a href="{% url 'admin_order_detail' order.id %}">Order {{order.id}}</a>
+    </div>
+{% endblock %}
+{% block content %}
+<h1>Order {{ order.id }}</h1>
+<ul class="object-tools">
+    <li>
+    <a href="#" onclick="window.print();">Print order</a>
+    </li>
+    <li>
+        <a href="">Get Bill</a>
+    </li>
+</ul>
+<table>
+    <tr>
+        <th>Created</th>
+        <td>{{order.created}}</td>
+    </tr>
+    <tr>
+        <th>Customer</th>
+        <td>{{order.first_name}}</td>
+    </tr>
+    <tr>
+        <th>E-mail</th>
+        <td>{{order.email}}</td>
+    </tr>
+    <tr>
+        <th>Address</th>
+        <td>{{order.address}}{{order.pincode}}</td>
+    </tr>
+    <tr>
+        <th>Total Amount</th>
+        <td>Rs {{order.get_cart_total}}</td>
+    </tr>
+    <tr>
+        <th>Order Status</th>
+        <td>{% if order.paid %}Paid{% else %}Not Paid{% endif %}</td>
+    </tr>
+</table>
+<div class="module">
+    <h2>Items Bought.</h2>
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Products</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% with items=order.items.all %}
+                {% for item in items %}
+                <tr>
+                    <td class="num">{{item.product.name}}</td>
+                    <td class="num">Rs {{item.price}}</td>
+                    <td class="num">{{item.quantity}}</td>
+                    <td class="num">Rs {{item.get_cost}}</td>
+                </tr>
+                {% endfor %}
+            {% endwith %}
+                <tr class="total">
+                    <td colspan="3">Discount</td>
+                    <td class="num">{{order.discount}}%</td>
+                </tr>
+                <tr class="total">
+                    <td colspan="3">Total</td>
+                    <td class="num">Rs {{order.get_discount_total}}</td>
+                </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block css %}
+{% endblock %}
+{% block title %}
+<title>Pay By Card</title>
+{% endblock %}
+{% block content %}
+<section class="main-section">
+    <article class="mt-5 payment-form container">
+        <form class="payment-form-item" id="payment" method="POSt">
+            {% csrf_token %}
+            <label for="cc-name">Card Holder Name</label>
+            <div class="field form-control" id="cc-name"></div>
+            <label for="card-number">Card Number</label>
+            <div id="card-number" class="field form-control"></div>
+            <lavel for="cvv">CVV</lavel>
+            <div id="cvv" class="field form-control"></div>
+            <label for="">Expiration Date</label>
+            <div id="expiration-date" class="field form-control"></div>
+            <input type="hidden" name="payment_method_nonce" value="" id="nonce">
+            <input type="submit" value="Pay" id="pay-btn" class="btn btn-success mt-5">
+        </form>
+    </article>
+</section>
+{% endblock %}
+{% block js %}
+<!-- Adding braintree client and Hosted field js Files -->
+  <!-- Load the required client component. -->
+  <script src="https://js.braintreegateway.com/web/3.70.0/js/client.min.js"></script>
+
+  <!-- Load Hosted Fields component. -->
+  <script src="https://js.braintreegateway.com/web/3.70.0/js/hosted-fields.min.js"></script>
+<script>
+var form = document.getElementById('payment');
+var submit = document.getElementById('pay-btn')
+
+braintree.client.create({
+    authorization: '{{client_token}}'
+},
+function(clientErr, clientInstance){
+    if (clientErr){
+        console.log(clientErr);
+        return;
+    }
+    braintree.hostedFields.create({
+        client: clientInstance,
+        style: {
+            input: {
+                'font-size': '1rem',
+                color: '#495057'
+            }
+        },
+        fields: {
+            cardholderName: {selector: '#cc-name', placeholder: "Name as it Appears on Your Card"},
+            number: {selector: '#card-number', placeholder: 'Card Number'},
+            cvv: {selector: '#cvv', placeholder: '123'},
+            expirationDate: {'selector': '#expiration-date', placeholder: 'MM / YY'}
+        }
+    },
+    function(hoistedFieldErr, hostedFieldInstance){
+        if (hoistedFieldErr){
+            console.log(hoistedFieldErr)
+            return;
+        }
+
+        submit.removeAttribute('disabled');
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault()
+            hostedFieldInstance.tokenize(function(tokenizeErr, payload){
+                if(tokenizeErr){
+                    console.log(tokenizeErr)
+                    return;
+                }
+                // set nonce to send to the server via hidden input field
+                document.getElementById('nonce').value = payload.nonce
+                // submit form
+                form.submit();
+            });
+        }, false);
+    });
+});
+</script>
+{% endblock %}

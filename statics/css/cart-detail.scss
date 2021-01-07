@@ -1,0 +1,44 @@
+@import '_variables.scss';
+.cart-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    a {
+        margin-left: 20px;
+    }
+}
+.recommandation {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+
+    .recommandation-list {
+        display: flex;
+    }
+    .recommandation-item {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        
+
+        .recommanded-image {
+            width: 150px;
+        }
+        &:hover {
+            background: darken($color: white, $amount: 15%);
+        }
+    }
+    .recommandation-item-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &:hover {
+            background:darken($color: white, $amount: 15%);
+        }
+    }
+
+}
